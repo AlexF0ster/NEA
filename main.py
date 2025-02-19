@@ -9,12 +9,15 @@ board=[[7,8,0,4,0,0,1,2,0],
     [0,4,9,2,0,6,0,0,7]]
 
 def display(bo):
-    for i in range(8):
+    for i in range(9):
         if i%3==0 and i!=0:
             print("- - - - - - - - - - - - - ")
-        for j in range(8):
+        for j in range(9):
             if j%3==0 and j!=0:
-                print(" | ")
-            print(bo[i][j])
+                print(" | ", end="")
+            if j==8:
+                print(bo[i][j])
+            else:
+                print(str(bo[i][j])+" ", end="")
 
 display(board)
