@@ -167,6 +167,7 @@ def displayErrors(bo, solvedBo):
 
 def play(board):
     display(board)
+    empty=board
     done=False
     while done==False:
         choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
@@ -179,8 +180,7 @@ def play(board):
         elif choice=="B" or choice=="b":
             displayErrors(board, solve(board))
         elif choice=="C" or choice=="c":
-            solve(board)
-            display(board)
+            display(solve(empty))
             done=True
         else:
             print("Invalid input")
