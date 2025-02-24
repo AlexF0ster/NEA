@@ -168,6 +168,7 @@ def displayErrors(bo, solvedBo):
 def play(board):
     display(board)
     empty=[row[:] for row in board]
+    solved=solve(empty)
     done=False
     while done==False:
         choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
@@ -178,9 +179,9 @@ def play(board):
             insertNum(num, x , y)
             display(board)
         elif choice=="B" or choice=="b":
-            displayErrors(board, solve(board))
+            displayErrors(board, solved)
         elif choice=="C" or choice=="c":
-            display(solve(empty))
+            display(solved)
             done=True
         else:
             print("Invalid input")
