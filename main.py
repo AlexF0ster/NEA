@@ -95,17 +95,17 @@ def findEmpty(bo):
 #     return False
 
 # def solve(bo):
-    row=(findEmpty(bo))[0]
-    col=(findEmpty(bo))[1]
-    while findEmpty(bo)!=False:
-        for i in range(1, 10):
-            bo[row][col]=i
-            valid=checkValid(bo, row, col)
-            if valid==True:
-                solve(bo)
-            else:
-                bo[row][col]=0
-    return bo
+    # row=(findEmpty(bo))[0]
+    # col=(findEmpty(bo))[1]
+    # while findEmpty(bo)!=False:
+    #     for i in range(1, 10):
+    #         bo[row][col]=i
+    #         valid=checkValid(bo, row, col)
+    #         if valid==True:
+    #             solve(bo)
+    #         else:
+    #             bo[row][col]=0
+    # return bo
 
 
 
@@ -143,7 +143,7 @@ def solve(bo):
             bo[row][col]=i
 
             if solve(bo):
-                return True
+                return bo
 
             bo[row][col]=0  # Reset the cell and backtrack
 
@@ -159,14 +159,30 @@ def solve(bo):
 def insertNum(number, row, col):
     board[row][col]=number
 
+def displayErrors(bo, solvedBo):
+    for r in range(9):
+        for c in range(9):
+            if bo[r][c]!=solvedBo[r][c] and board[r][c]!=0:
+                print("Error at row "+str(r)+" and column "+str(c)+".")
+
 def play(board):
-    solvedBoard=solve(board)
     display(board)
     done=False
     while done==False:
         choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
-        if choice=="A" or "a":
+        if choice=="A" or choice=="a":
             num=int(input("Enter number (1 to 9): "))
             x=int(input("Enter x coordinate (0 to 8): "))
             y=int(input("Enter y coordinate (0 to 8): "))
             insertNum(num, x , y)
+            display(board)
+        elif choice=="B" or choice=="b":
+            displayErrors(board, solve(board))
+        elif choice=="C" or choice=="c":
+            solve(board)
+            display(board)
+            done=True
+        else:
+            print("Invalid input")
+
+play(board)
