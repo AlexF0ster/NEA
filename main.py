@@ -162,12 +162,12 @@ def insertNum(number, row, col):
 def displayErrors(bo, solvedBo):
     for r in range(9):
         for c in range(9):
-            if bo[r][c]!=solvedBo[r][c] and board[r][c]!=0:
+            if bo[r][c]!=solvedBo[r][c] and bo[r][c]!=0:
                 print("Error at row "+str(r)+" and column "+str(c)+".")
 
 def play(board):
     display(board)
-    empty=board
+    empty=[row[:] for row in board]
     done=False
     while done==False:
         choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
