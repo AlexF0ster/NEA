@@ -140,17 +140,33 @@ def solve(bo):
 
     for i in range(1, 10):
         if checkValid(bo, i, (row, col)):
-            bo[row][col] = i
+            bo[row][col]=i
 
             if solve(bo):
                 return True
 
-            bo[row][col] = 0  # Reset the cell and backtrack
+            bo[row][col]=0  # Reset the cell and backtrack
 
     return False  # Trigger backtracking
 
-# Print the solved board
-if solve(board):
+# # Print the solved board
+# if solve(board):
+#     display(board)
+# else:
+#     print("No solution exists")
+
+
+def insertNum(number, row, col):
+    board[row][col]=number
+
+def play(board):
+    solvedBoard=solve(board)
     display(board)
-else:
-    print("No solution exists")
+    done=False
+    while done==False:
+        choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
+        if choice=="A" or "a":
+            num=int(input("Enter number (1 to 9): "))
+            x=int(input("Enter x coordinate (0 to 8): "))
+            y=int(input("Enter y coordinate (0 to 8): "))
+            insertNum(num, x , y)
