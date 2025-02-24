@@ -1,12 +1,12 @@
-board=[[7,8,0,4,0,0,1,2,0],
-    [6,0,0,0,7,5,0,0,9],
-    [0,0,0,6,0,1,0,7,8],
-    [0,0,7,0,4,0,2,6,0],
-    [0,0,1,0,5,0,9,3,0],
-    [9,0,4,0,6,0,0,0,5],
-    [0,7,0,3,0,0,0,1,2],
-    [1,2,0,0,0,7,4,0,0],
-    [0,4,9,2,0,6,0,0,7]]
+board=[[8,0,0,4,0,6,0,0,7],
+    [0,0,0,0,0,0,4,0,0],
+    [0,1,0,0,0,0,6,5,0],
+    [5,0,9,0,3,0,7,8,0],
+    [0,0,0,0,7,0,0,0,0],
+    [0,4,8,0,2,0,1,0,3],
+    [0,5,2,0,0,0,0,9,0],
+    [0,0,1,0,0,0,0,0,0],
+    [3,0,0,9,0,2,0,0,5]]
 
 def display(bo):
     for i in range(9):
@@ -29,70 +29,72 @@ def findEmpty(bo):
     return False
 #^returns the row and column of the first empty cell
 
-def checkValidGrid(bo, row, col):
-    count=0
-    if row // 3 == 0 and col // 3 == 0:
-        for r in range(0, 3):
-            for c in range(0, 3):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 1 and col // 3 == 0:
-        for r in range(3, 6):
-            for c in range(0, 3):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 2 and col // 3 == 0:
-        for r in range(6, 9):
-            for c in range(0, 3):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 0 and col // 3 == 1:
-        for r in range(0, 3):
-            for c in range(3, 6):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 1 and col // 3 == 1:
-        for r in range(3, 6):
-            for c in range(3, 6):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 2 and col // 3 == 1:
-        for r in range(6, 9):
-            for c in range(3, 6):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 0 and col // 3 == 2:
-        for r in range(0, 3):
-            for c in range(6, 9):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 1 and col // 3 == 2:
-        for r in range(3, 6):
-            for c in range(6, 9):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
-    elif row // 3 == 2 and col // 3 == 2:
-        for r in range(6, 9):
-            for c in range(6, 9):
-                if bo[row][col] == bo[r][c]:
-                    count += 1
 
-    if count <= 1:
-        return True
-    return False
 
-def checkValid(bo, r, c):
-    count=0
-    for i in range(9):
-        if (bo[r][i]==bo[r][c]) or (bo[i][c]==bo[r][c]):
-            count+=1
-        if checkValidGrid(bo, r, c)==False:
-            count+=1
-    if count<=1:
-        return True
-    return False
+# def checkValidGrid(bo, row, col):
+#     count=0
+#     if row // 3 == 0 and col // 3 == 0:
+#         for r in range(0, 3):
+#             for c in range(0, 3):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 1 and col // 3 == 0:
+#         for r in range(3, 6):
+#             for c in range(0, 3):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 2 and col // 3 == 0:
+#         for r in range(6, 9):
+#             for c in range(0, 3):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 0 and col // 3 == 1:
+#         for r in range(0, 3):
+#             for c in range(3, 6):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 1 and col // 3 == 1:
+#         for r in range(3, 6):
+#             for c in range(3, 6):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 2 and col // 3 == 1:
+#         for r in range(6, 9):
+#             for c in range(3, 6):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 0 and col // 3 == 2:
+#         for r in range(0, 3):
+#             for c in range(6, 9):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 1 and col // 3 == 2:
+#         for r in range(3, 6):
+#             for c in range(6, 9):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
+#     elif row // 3 == 2 and col // 3 == 2:
+#         for r in range(6, 9):
+#             for c in range(6, 9):
+#                 if bo[row][col] == bo[r][c]:
+#                     count += 1
 
-def solve(bo):
+#     if count <= 1:
+#         return True
+#     return False
+
+# def checkValid(bo, r, c):
+#     count=0
+#     for i in range(9):
+#         if (bo[r][i]==bo[r][c]) or (bo[i][c]==bo[r][c]):
+#             count+=1
+#         if checkValidGrid(bo, r, c)==False:
+#             count+=1
+#     if count<=1:
+#         return True
+#     return False
+
+# def solve(bo):
     row=(findEmpty(bo))[0]
     col=(findEmpty(bo))[1]
     while findEmpty(bo)!=False:
@@ -105,4 +107,50 @@ def solve(bo):
                 bo[row][col]=0
     return bo
 
-print(solve(board))
+
+
+def checkValid(bo, num, pos):
+    # Check row
+    for i in range(len(bo[0])):
+        if bo[pos[0]][i] == num and pos[1] != i:
+            return False
+
+    # Check column
+    for i in range(len(bo)):
+        if bo[i][pos[1]] == num and pos[0] != i:
+            return False
+
+    # Check 3x3 grid
+    box_x = pos[1] // 3
+    box_y = pos[0] // 3
+
+    for i in range(box_y*3, box_y*3 + 3):
+        for j in range(box_x*3, box_x*3 + 3):
+            if bo[i][j] == num and (i, j) != pos:
+                return False
+
+    return True
+
+def solve(bo):
+    find = findEmpty(bo)
+    if not find:
+        return True  # No empty cells left, puzzle solved
+    else:
+        row, col = find
+
+    for i in range(1, 10):
+        if checkValid(bo, i, (row, col)):
+            bo[row][col] = i
+
+            if solve(bo):
+                return True
+
+            bo[row][col] = 0  # Reset the cell and backtrack
+
+    return False  # Trigger backtracking
+
+# Print the solved board
+if solve(board):
+    display(board)
+else:
+    print("No solution exists")
