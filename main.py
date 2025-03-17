@@ -89,7 +89,7 @@ def displayGrid():
             elif num==2:
                 for r in range(9):
                     for c in range(9):
-                        gridData[r][c][0]=gridE2[r][c]
+                        gridData[r][c][0]=gridE2[c][r]
             else:
                  for r in range(9):
                     for c in range(9):
@@ -237,6 +237,8 @@ app.run(debug = True)
 #error was on lines 91 and 93, changed c and r around
 #added lines 99 and 104- this meant that the grid wasn't reset to its original state after the form was submitted
 #new error- when a cell is highlighted red, the number inside is replaced with the correct number (very simple fix on line 104, it was a silly mistake)
+
+#cycle 3- loads of shit getting highligthed wrong when new grids are selected
 
 #things to talk about in evaluation:
 
