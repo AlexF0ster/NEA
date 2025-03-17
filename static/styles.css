@@ -1,0 +1,72 @@
+body{
+    background-color: rgb(252, 227, 175);
+}
+
+h1{
+    text-align: center;
+}
+
+.game-space{
+    text-align: center;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.grid-row {
+    display: flex;
+}
+
+.grid-cell, .grid-cell-correct, .grid-cell-wrong {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.grid-cell-correct {
+    background-color: #d4edda; /* Light green for correct cells */
+}
+
+.grid-cell-wrong {
+    background-color: #f8d7da; /* Light red for incorrect cells */
+}
+
+/* Thicker borders for 3x3 subgrid separation */
+.top-border {
+    border-top: 3px solid black;
+}
+
+.bottom-border {
+    border-bottom: 3px solid black;
+}
+
+.left-border {
+    border-left: 3px solid black;
+}
+
+.right-border {
+    border-right: 3px solid black;
+}
+
+.difficultyButtons {
+    margin-top: 20px;
+    gap: 10px;
+}
+
+input[type="submit"]{
+    margin-top: 20px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

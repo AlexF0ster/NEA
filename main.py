@@ -1,25 +1,9 @@
-board=[[8,0,0,4,0,6,0,0,7],
-    [0,0,0,0,0,0,4,0,0],
-    [0,1,0,0,0,0,6,5,0],
-    [5,0,9,0,3,0,7,8,0],
-    [0,0,0,0,7,0,0,0,0],
-    [0,4,8,0,2,0,1,0,3],
-    [0,5,2,0,0,0,0,9,0],
-    [0,0,1,0,0,0,0,0,0],
-    [3,0,0,9,0,2,0,0,5]]
+from puzzleStorage import *
+from flask import Flask, render_template, request
+import random
 
-def display(bo):
-    for i in range(9):
-        if i%3==0 and i!=0:
-            print("- - - - - - - - - - - - - ")
-        for j in range(9):
-            if j%3==0 and j!=0:
-                print(" | ", end="")
-            if j==8:
-                print(bo[i][j])
-            else:
-                print(str(bo[i][j])+" ", end="")
-#^displays the board; uses integer division to determine when to print the horizontal and vertical lines
+app = Flask(__name__)
+
 
 def findEmpty(bo):
     for r in range(9):
@@ -27,86 +11,7 @@ def findEmpty(bo):
             if bo[r][c]==0:
                 return r,c
     return False
-#^returns the row and column of the first empty cell
-
-
-
-# def checkValidGrid(bo, row, col):
-#     count=0
-#     if row // 3 == 0 and col // 3 == 0:
-#         for r in range(0, 3):
-#             for c in range(0, 3):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 1 and col // 3 == 0:
-#         for r in range(3, 6):
-#             for c in range(0, 3):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 2 and col // 3 == 0:
-#         for r in range(6, 9):
-#             for c in range(0, 3):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 0 and col // 3 == 1:
-#         for r in range(0, 3):
-#             for c in range(3, 6):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 1 and col // 3 == 1:
-#         for r in range(3, 6):
-#             for c in range(3, 6):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 2 and col // 3 == 1:
-#         for r in range(6, 9):
-#             for c in range(3, 6):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 0 and col // 3 == 2:
-#         for r in range(0, 3):
-#             for c in range(6, 9):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 1 and col // 3 == 2:
-#         for r in range(3, 6):
-#             for c in range(6, 9):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-#     elif row // 3 == 2 and col // 3 == 2:
-#         for r in range(6, 9):
-#             for c in range(6, 9):
-#                 if bo[row][col] == bo[r][c]:
-#                     count += 1
-
-#     if count <= 1:
-#         return True
-#     return False
-
-# def checkValid(bo, r, c):
-#     count=0
-#     for i in range(9):
-#         if (bo[r][i]==bo[r][c]) or (bo[i][c]==bo[r][c]):
-#             count+=1
-#         if checkValidGrid(bo, r, c)==False:
-#             count+=1
-#     if count<=1:
-#         return True
-#     return False
-
-# def solve(bo):
-    # row=(findEmpty(bo))[0]
-    # col=(findEmpty(bo))[1]
-    # while findEmpty(bo)!=False:
-    #     for i in range(1, 10):
-    #         bo[row][col]=i
-    #         valid=checkValid(bo, row, col)
-    #         if valid==True:
-    #             solve(bo)
-    #         else:
-    #             bo[row][col]=0
-    # return bo
-
+#returns row and column of first empty cell
 
 
 def checkValid(bo, num, pos):
@@ -120,7 +25,7 @@ def checkValid(bo, num, pos):
         if bo[i][pos[1]]==num and pos[0]!=i:
             return False
 
-    # Check 3x3 grid
+    #check 3x3 grid
     box_x=pos[1]//3
     box_y=pos[0]//3
 
@@ -128,13 +33,14 @@ def checkValid(bo, num, pos):
         for j in range(box_x*3, box_x*3+3):
             if bo[i][j]==num and (i, j)!=pos:
                 return False
-                
+
     return True
+
 
 def solve(bo):
     find=findEmpty(bo)
     if not find:
-        return True  # No empty cells left, puzzle solved
+        return True  #no empty cells left, puzzle solved
     else:
         row, col=find
 
@@ -143,47 +49,195 @@ def solve(bo):
             bo[row][col]=i
 
             if solve(bo):
+                #print("boom")
                 return bo
 
-            bo[row][col]=0  # Reset the cell and backtrack
+            bo[row][col]=0  #reset the cell and backtrack
 
-    return False  # Trigger backtracking
-
-# # Print the solved board
-# if solve(board):
-#     display(board)
-# else:
-#     print("No solution exists")
+    return False  #trigger backtracking
 
 
-def insertNum(number, row, col):
-    board[row][col]=number
 
-def displayErrors(bo, solvedBo):
-    for r in range(9):
-        for c in range(9):
-            if bo[r][c]!=solvedBo[r][c] and bo[r][c]!=0:
-                print("Error at row "+str(r)+" and column "+str(c)+".")
+solution=None
+gridData=None
 
-def play(board):
-    display(board)
-    empty=[row[:] for row in board]
-    solved=solve(empty)
-    done=False
-    while done==False:
-        choice = input("Do you want to A: enter a number, B: check your inputs, or C: view the solution?")
-        if choice=="A" or choice=="a":
-            num=int(input("Enter number (1 to 9): "))
-            x=int(input("Enter x coordinate (0 to 8): "))
-            y=int(input("Enter y coordinate (0 to 8): "))
-            insertNum(num, x , y)
-            display(board)
-        elif choice=="B" or choice=="b":
-            displayErrors(board, solved)
-        elif choice=="C" or choice=="c":
-            display(solved)
-            done=True
+
+@app.route("/", methods = ["get","post"])
+def displayGrid():
+
+    global solution, gridData
+
+    if request.method == "POST":
+
+        action=request.form.get("action")
+
+        if action=="showSolution":
+
+            for r in range(9):
+                for c in range(9):
+                    gridData[r][c][0]=solution[r][c]
+                    gridData[r][c][1]=True
+        
+
+        elif action=="e":
+
+            num=random.randint(1,3)
+            if num==1:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridE1[r][c]
+            elif num==2:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridE2[r][c]
+            else:
+                 for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridE3[r][c]
+
+        elif action=="m":
+
+            num=random.randint(1,3)
+            if num==1:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridM1[r][c]
+            elif num==2:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridM2[r][c]
+            else:
+                 for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridM3[r][c]
+
+        elif action=="h":
+
+            num=random.randint(1,3)
+            if num==1:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridH1[r][c]
+            elif num==2:
+                for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridH2[r][c]
+            else:
+                 for r in range(9):
+                    for c in range(9):
+                        gridData[r][c][0]=gridH3[r][c]
+
         else:
-            print("Invalid input")
+        
+            #retrieve form data and turn it into a list
 
-play(board)
+            formData = request.form
+
+            userGridData = [
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""],
+                    ["","","","","","","","",""]
+                ]
+            
+            for r in range(9):
+                for c in range(9):
+                    cellName = f"r{r}c{c}"
+                    cellValue = formData.get(cellName, "")
+                    if cellValue.isdigit():
+                        userGridData[c][r]=(int(cellValue))
+                    else:
+                        userGridData[c][r]=0
+            
+            #compare this new list with the solution and assign True or False depending on whether cells are correct
+            for r in range(9):
+                for c in range(9):
+                    if userGridData[r][c]==solution[r][c] and userGridData[r][c]!=0:
+                        gridData[r][c][0]=userGridData[r][c]
+                        gridData[r][c][1]=True
+                    elif userGridData[r][c]==0:
+                        pass
+                    else:
+                        gridData[r][c][0]=userGridData[r][c]
+                        gridData[r][c][1]=False
+        
+    else:
+        ##Generate a new sudoku
+        ##Form this as a grid and send the solution and initial grid
+        
+        gridDataRaw=None
+
+        num=random.randint(1,3)
+        if num==1:
+            gridDataRaw=gridM1
+        elif num==2:
+            gridDataRaw=gridM2
+        else:
+            gridDataRaw=gridM3
+
+        gridData=[
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]],
+            [[None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None], [None, None]]
+        ]
+
+    
+        for r in range(9):
+            for c in range(9):
+                if gridDataRaw[r][c]!=0:
+                    gridData[r][c][0]=gridDataRaw[r][c]
+                    gridData[r][c][1]=True
+                else:
+                    gridData[r][c][0]=gridDataRaw[r][c]
+                    gridData[r][c][1]=None
+
+
+        empty=[row[:] for row in gridDataRaw]
+        solution=solve(empty)
+        
+
+        
+        
+    return render_template("solution.html", gridData = gridData)
+
+
+
+
+
+app.run(debug = True)  
+
+
+
+#puzzle "database"
+
+
+
+
+
+
+
+
+
+#error log- highlighting function
+
+#added [0] to the end of the gridData calls on lines 23 and 25 in html so the numbers are actually displayed (previously blank cells)
+#globalised solution and gridData
+#new error- everything highlighted red
+#error was on lines 91 and 93, changed c and r around
+#added lines 99 and 104- this meant that the grid wasn't reset to its original state after the form was submitted
+#new error- when a cell is highlighted red, the number inside is replaced with the correct number (very simple fix on line 104, it was a silly mistake)
+
+#things to talk about in evaluation:
+
+#re-submitting the form after deleting an incorrect number resets that cell back to the incorrect number entered
